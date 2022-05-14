@@ -16,9 +16,10 @@ interface TasksListProps {
   tasks: Task[];
   toggleTaskDone: (id: number) => void;
   removeTask: (id: number) => void;
+  editTask: ({ taskId, taskNewTitle }: { taskId: number, taskNewTitle: string }) => void;
 }
 
-export function TasksList({ tasks, toggleTaskDone, removeTask }: TasksListProps) {
+export function TasksList({ tasks, toggleTaskDone, removeTask, editTask }: TasksListProps) {
   return (
     <FlatList
       data={tasks}
@@ -36,13 +37,13 @@ export function TasksList({ tasks, toggleTaskDone, removeTask }: TasksListProps)
                 //TODO - use onPress (toggle task) prop
                 onPress={() => toggleTaskDone(item.id)}
               >
-                <View 
+                <View
                   testID={`marker-${index}`}
                   //TODO - use style prop 
                   style={item.done ? styles.taskMarkerDone : styles.taskMarker}
                 >
-                  { item.done && (
-                    <Icon 
+                  {item.done && (
+                    <Icon
                       name="check"
                       size={12}
                       color="#FFF"
@@ -50,7 +51,7 @@ export function TasksList({ tasks, toggleTaskDone, removeTask }: TasksListProps)
                   )}
                 </View>
 
-                <Text 
+                <Text
                   //TODO - use style prop
                   style={item.done ? styles.taskTextDone : styles.taskText}
                 >

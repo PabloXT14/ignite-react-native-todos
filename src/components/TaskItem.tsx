@@ -1,17 +1,57 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import trashIcon from '../assets/icons/trash/trash.png';
 
-export function components() {
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  TextInput,
+  Image
+} from 'react-native';
+
+interface TaskItemProps {
+  taskId: number;
+  onToggTaskDone: (itemId: number) => void;
+}
+
+
+export function TaskItem({ taskId, onToggTaskDone }: TaskItemProps) {
   return (
-    <View style={styles.container}>
+    <>
+      <View>
+        <TouchableOpacity
+          testID={`button-${taskId}`}
+          activeOpacity={0.7}
+          style={styles.taskButton}
+          onPress={() => onToggTaskDone}
+        >
+          <View>
 
-    </View>
+          </View>
+
+          <TextInput />
+        </TouchableOpacity>
+      </View>
+
+      <TouchableOpacity>
+        <Image source={trashIcon} />
+      </TouchableOpacity>
+    </>
   );
 }
 
 
 const styles = StyleSheet.create({
-    container: {
-        
-    }
+  taskButton: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingVertical: 15,
+    marginBottom: 4,
+    borderRadius: 4,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  taskMaker: {
+
+  }
 });
