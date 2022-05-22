@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Icon from 'react-native-vector-icons/Feather';
 import trashIcon from '../assets/icons/trash/trash.png';
-import penIcon from '../assets/icons/pen/pen.png';
+import editIcon from '../assets/icons/edit/edit.png';
+
 
 import {
   StyleSheet,
@@ -11,6 +12,7 @@ import {
   TextInput
 } from 'react-native';
 import { Task } from './TasksList';
+import { EditTaskArgs } from '../pages/Home';
 
 
 type TaskItemProps = {
@@ -18,7 +20,7 @@ type TaskItemProps = {
   task: Task;
   toggleTaskDone: (id: number) => void;
   removeTask: (id: number) => void;
-  editTask: ({ taskId, taskNewTitle }: { taskId: number, taskNewTitle: string }) => void;
+  editTask: ({ taskId, taskNewTitle }: EditTaskArgs) => void;
 }
 
 
@@ -54,8 +56,8 @@ export function TaskItem({ indexTask, task, toggleTaskDone, removeTask, editTask
   }, [isEditingTask]);
 
   return (
-    <>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <View style={styles.infoContainer}>
         <TouchableOpacity
           testID={`button-${indexTask}`}
           activeOpacity={0.7}
@@ -86,6 +88,7 @@ export function TaskItem({ indexTask, task, toggleTaskDone, removeTask, editTask
 
         </TouchableOpacity>
       </View>
+
       <View style={styles.iconsContainer}>
         {isEditingTask ? (
           <TouchableOpacity
@@ -97,11 +100,12 @@ export function TaskItem({ indexTask, task, toggleTaskDone, removeTask, editTask
           <TouchableOpacity
             onPress={handleStartEditing}
           >
-            <Image source={penIcon} />
+            <Image source={editIcon} />
           </TouchableOpacity>
         )}
 
         <View style={styles.iconsDivider} />
+
         <TouchableOpacity
           onPress={() => removeTask(task.id)}
           disabled={isEditingTask}
@@ -110,19 +114,23 @@ export function TaskItem({ indexTask, task, toggleTaskDone, removeTask, editTask
           <Image source={trashIcon} style={{ opacity: isEditingTask ? 0.2 : 1 }} />
         </TouchableOpacity>
       </View>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  infoContainer: {
+    flex: 1
   },
   taskButton: {
     flex: 1,
     paddingHorizontal: 24,
-    paddingVertical: 15,
-    marginBottom: 4,
     borderRadius: 4,
     flexDirection: 'row',
     alignItems: 'center'
@@ -157,12 +165,14 @@ const styles = StyleSheet.create({
   },
   iconsContainer: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingLeft: 12,
+    paddingRight: 24
   },
   iconsDivider: {
     width: 1,
     height: 24,
     backgroundColor: 'rgba(196, 196, 196, 0.24)',
-    marginHorizontal: 24
+    marginHorizontal: 12
   }
 })

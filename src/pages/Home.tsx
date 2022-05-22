@@ -5,6 +5,14 @@ import { Header } from '../components/Header';
 import { Task, TasksList } from '../components/TasksList';
 import { TodoInput } from '../components/TodoInput';
 
+/* ===== TIPAGENS ===== */
+export type EditTaskArgs = {
+  taskId: number;
+  taskNewTitle: string;
+}
+
+
+/* ===== COMPONENT ===== */
 export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -40,8 +48,12 @@ export function Home() {
   //TODO - remove task from state
   function handleRemoveTask(id: number) {
     Alert.alert('Remover item', 'Tem certeza que você deseja remover esse item?', [
-      { text: 'Não' },
       {
+        style: 'cancel',
+        text: 'Não'
+      },
+      {
+        style: 'destructive',
         text: 'Sim', onPress: () => {
           const taksFiltered = tasks.filter(task => task.id !== id);
           setTasks(taksFiltered);
@@ -53,7 +65,7 @@ export function Home() {
   }
 
   //TODO - edit task
-  function handleEditTask({ taskId, taskNewTitle }: { taskId: number, taskNewTitle: string }) {
+  function handleEditTask({ taskId, taskNewTitle }: EditTaskArgs) {
     const updatedTask = tasks.map(task => {
       if (task.id === taskId) {
         task.title = taskNewTitle;
